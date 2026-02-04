@@ -1,0 +1,36 @@
+---
+---
+
+<h1>Submit an Instant App</h1>
+
+<form action="/api/submit" method="post">
+  <p>
+    <label>
+      App Name<br />
+      <input name="name" required />
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Description<br />
+      <textarea name="description" required></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      App URL<br />
+      <input name="url" type="url" required />
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Category<br />
+      <input name="category" required />
+    </label>
+  </p>
+
+  <button type="submit">Submit App</button>
+</form>
