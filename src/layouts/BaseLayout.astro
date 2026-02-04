@@ -1,18 +1,16 @@
 ---
-const { title = "AppWow", description = "Home of Instant Apps" } = Astro.props;
+const { title = "AppWow" } = Astro.props;
 ---
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content={description} />
-  <title>{title}</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
 
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <meta name="theme-color" content="#002B36" />
-</head>
-<body>
-  <slot />
-</body>
+  <body>
+    <slot />
+  </body>
 </html>
