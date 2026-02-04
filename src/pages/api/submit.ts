@@ -1,27 +1,43 @@
 import type { APIRoute } from "astro";
 import { addSubmission } from "../../lib/data/submissionstore";
 
-export const POST: APIRoute = async ({ request }) => {
-  const body = await request.json();
+/* Allow browser GET requests safely */
+export const GET: APIRoute = async () => {
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: "/submit",
+    },
+  });
+};
 
-  if (
-    !body?.id ||
-    !body?.name ||
-    !body?.description ||
-    !body?.url ||
-    !body?.category
-  ) {
+/* Handle form submission */
+export const POST: APIRoute = async ({ request }) => {
+  const formData = await request.formData();
+
+  const id = crypto.randomUUID();
+  const name = formData.get("name")?.toString();
+  const description = formData.get("description")?.toString();
+  const url = formData.get("url")?.toString();
+  const category = formData.get("category")?.toString();
+
+  if (!name || !description || !url || !category) {
     return new Response("Invalid submission", { status: 400 });
   }
 
   await addSubmission({
-    id: body.id,
-    name: body.name,
-    description: body.description,
-    url: body.url,
-    category: body.category,
+    id,
+    name,
+    description,
+    url,
+    category,
     status: "pending",
   });
 
-  return new Response("OK", { status: 200 });
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: "/submit/thanks",
+    },
+  });
 };
