@@ -49,7 +49,7 @@ export async function updateStatus(
 /**
  * Get all submissions
  */
-export async function listSubmissions(): Promise<Submission[]> {
+export async function getSubmissions(): Promise<Submission[]> {
   return Array.from(submissions.values());
 }
 

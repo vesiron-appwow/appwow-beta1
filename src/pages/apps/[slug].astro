@@ -1,29 +1,23 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
-import { getSubmissions } from "../../lib/data/submissionstore.ts";
+import { getSubmissions } from "../../lib/data/submissionstore";
 
-const submissions = await getSubmissions(Astro.locals.env);
-const app = submissions.find(
-  s => s.status === "approved" && s.id === Astro.params.slug
-);
+const { slug } = Astro.params;
+const submissions = await getSubmissions();
+const submission = submissions.find((s) => s.id === slug);
 
-if (!app) {
-  return Astro.redirect("/");
+if (!submission) {
+  throw new Error("Submission not found");
 }
 ---
 
-<BaseLayout title={app.name}>
-  <Header />
+<h1>{submission.name}</h1>
 
-  <main>
-    <h1>{app.name}</h1>
-    <p>{app.description}</p>
-    <a href={app.launchUrl} target="_blank" rel="noopener">
-      Launch Instant App
-    </a>
-  </main>
+<p>{submission.description}</p>
 
-  <Footer />
-</BaseLayout>
+<p>
+  <a href={submission.url} target="_blank" rel="noopener noreferrer">
+    Visit App
+  </a>
+</p>
+
+<p>Status: {submission.status}</p>
