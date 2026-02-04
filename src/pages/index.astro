@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { getSubmissions } from "../lib/data/submissionstore.ts";
+
+const apps = (await getSubmissions(Astro.locals.env))
+  .filter(a => a.status === "approved");
+---
+
+<BaseLayout title="AppWow">
+  <Header />
+
+  <main>
+    <h2>Featured Instant Apps</h2>
+
+    <ul>
+      {apps.map(app => (
+        <li>
+          <a href={`/apps/${app.id}`}>{app.name}</a>
+        </li>
+      ))}
+    </ul>
+  </main>
+
+  <Footer />
+</BaseLayout>

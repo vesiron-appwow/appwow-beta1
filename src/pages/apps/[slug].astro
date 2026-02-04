@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getSubmissions } from "../../lib/data/submissionstore.ts";
+
+const submissions = await getSubmissions(Astro.locals.env);
+const app = submissions.find(
+  s => s.status === "approved" && s.id === Astro.params.slug
+);
+
+if (!app) {
+  return Astro.redirect("/");
+}
+---
+
+<BaseLayout title={app.name}>
+  <Header />
+
+  <main>
+    <h1>{app.name}</h1>
+    <p>{app.description}</p>
+    <a href={app.launchUrl} target="_blank" rel="noopener">
+      Launch Instant App
+    </a>
+  </main>
+
+  <Footer />
+</BaseLayout>
